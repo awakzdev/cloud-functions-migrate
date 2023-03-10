@@ -48,7 +48,7 @@ Running pubsub.py will create a JSON that holds a list with the following strcut
 Running main.py will create a JSON with the following structure :
 ```
 {
-  "AuthenticatedFunction": { # Your function name
+  "AuthenticatedFunction": {
     "environmentVariables": null,
     "buildEnvironmentVariables": null,
     "secret": {},
@@ -57,16 +57,16 @@ Running main.py will create a JSON with the following structure :
       "failurePolicy": {}
     }
   },
-  "HelloWorld": { # Your function name
-    "environmentVariables": { # Your function environment variables
+  "HelloWorld": {
+    "environmentVariables": {
       "RUNTIME": "HELLO",
       "RUNTIMEE": "HELLOO"
     },
-    "buildEnvironmentVariables": { # Your function build variables
+    "buildEnvironmentVariables": {
       "BUILD": "TEST",
       "BUILDD": "TEST-2"
     },
-    "secret": { # Your function secret
+    "secret": {
       "mysecret": {
         "version": "latest",
         "mountPath": "/path",
@@ -77,7 +77,7 @@ Running main.py will create a JSON with the following structure :
         "projectId": "1001384248257"
       }
     },
-    "httpsTrigger": { # Your function Trigger type
+    "httpsTrigger": {
       "topic": "https://us-central1-cc-s2s-vpn-test.cloudfunctions.net/function-2",
       "failurePolicy": null
     }
