@@ -30,6 +30,7 @@ variable "gcp_region" {
 variable "name_prefix" {
   description = "naming prefix for resources"
 }
+
 //////////////////////////////
 
 # Locals
