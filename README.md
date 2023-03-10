@@ -54,7 +54,7 @@ Running main.py will create a JSON with the following structure :
     "buildEnvironmentVariables": null,
     "secret": {},
     "Pub/Sub": {
-      "topic": "projects/cc-s2s-vpn-test/topics/asdasdx",
+      "topic": "projects/cc-s2s-vpn-test/topics/agencies-filter",
       "failurePolicy": {}
     }
   },
@@ -79,7 +79,7 @@ Running main.py will create a JSON with the following structure :
       }
     },
     "httpsTrigger": {
-      "topic": "https://us-central1-cc-s2s-vpn-test.cloudfunctions.net/function-2",
+      "topic": "https://us-central1-cc-s2s-vpn-test.cloudfunctions.net/HelloWorld",
       "failurePolicy": null
     }
   }
