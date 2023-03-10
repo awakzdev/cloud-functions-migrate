@@ -86,11 +86,10 @@ resource "google_cloudfunctions_function" "secret_test_func" {
 
   available_memory_mb   = each.value.available_memory_mb
   timeout               = each.value.timeout
-  trigger_http = lookup(each.value, "httpsTrigger", {}) != null ? true : false
-
-  # FIX THIS BLOCK
+  trigger_http = lookup(each.value, "httpTrigger", null) == null ? null : true
+  
   dynamic "event_trigger" {
-    for_each = lookup(each.value, "httpsTrigger", {}) == null ? lookup(each.value, "eventTrigger", {}) : null
+    for_each   = lookup(each.value, "eventTrigger", {})
     content {
       event_type = event_trigger.value.eventType
       resource   = event_trigger.value.resource
