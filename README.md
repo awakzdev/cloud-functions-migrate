@@ -1,6 +1,3 @@
-# Catalog Sync Cloud Functions
-Utilizes Google Cloud SDK's to fetch all Cloud Functions and download their source code.
-
 ## Purpose
 
 The purpose of this code is to automatically sync Pub\Sub and Google Cloud Function into your local environment. 
