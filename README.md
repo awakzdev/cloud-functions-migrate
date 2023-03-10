@@ -105,3 +105,6 @@ Running main.py will create a JSON with the following structure :
   }
 }
 ```
+
+## Terraform Iteration
+- An additional terraform file has been added with the resources this is supposed to iterate on
