@@ -44,6 +44,7 @@ Running pubsub.py will create a JSON that holds a list with the following strcut
     "catalog",
     "create-mimun-lead",
     "data-gov-fetch",
+]
 ```
 Running main.py will create a JSON with the following structure :
 ```
@@ -82,4 +83,5 @@ Running main.py will create a JSON with the following structure :
       "failurePolicy": null
     }
   }
+}
 ```
