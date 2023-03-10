@@ -108,3 +108,12 @@ Running main.py will create a JSON with the following structure :
 
 ## Terraform Iteration
 An additional terraform file has been added with the resources this is supposed to iterate on.
+
+You may create a `terraform.tfvars` file using the following command :
+```
+cat << EOF > terraform.tfvars
+gcp_project = "my-project"
+gcp_region = "my-region"
+name_prefix = "my-prefix"
+EOF
+```
