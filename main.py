@@ -93,11 +93,12 @@ def fetch(project, region):
     with open('function_info.json', 'w') as f:
         json.dump(function_info, f, indent=2)
 
-    print(functions)
     # Write function information to JSON file
     with open('function_info.json', 'w') as f:
         json.dump(function_info, f, indent=2)
-
+    
+    # All available functions and their corresponding keys
+    # print(functions)
 
 if __name__ == '__main__':
     fetch(PROJECT, REGION)
