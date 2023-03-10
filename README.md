@@ -1,6 +1,8 @@
-## Purpose
+## Purpose and use case
 
-The purpose of this code is to automatically sync Pub\Sub and Google Cloud Function into your local environment. 
+- The purpose of this code is to automatically sync Pub\Sub and Google Cloud Function into your local environment. 
+- Aid in the process of migration from one GCP environment to another using Terraform.
+
 
 ## Authentication
 
