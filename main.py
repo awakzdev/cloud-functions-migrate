@@ -32,7 +32,6 @@ def fetch(project, region):
 
     # Initialize dictionary to store function information
     function_info = {}
-
     for function in functions['functions']:
         # Extract information about the function
         function_name = function['name'].split('/')[-1]
@@ -43,33 +42,21 @@ def fetch(project, region):
 
         # Extract secrets
         secrets = {}
-        if 'secretVolumes' in function:
-            for secret_volume in function['secretVolumes']:
-                secret = secret_volume['secret']
-                secret_versions = secret_volume.get('versions', [])
-                if secret_versions:
-                    secrets[secret] = {
-                        'version': secret_versions[0]['version'],
-                        'mountPath': secret_volume['mountPath'],
-                        'projectId': secret_volume['projectId']
-                    }
-
         secret_env_vars = function.get('secretEnvironmentVariables')
         if secret_env_vars:
-            for secret_env_var in secret_env_vars:
-                secret = secret_env_var['secret']
-                secrets[secret] = {
-                    'version': secret_env_var['version'],
-                    'projectId': secret_env_var['projectId']
-                }
+            secrets['secretEnvironmentVariables'] = [{'key': sev['key'], 'projectId': sev['projectId'], 'secret': sev['secret'], 'version': sev['version']} for sev in secret_env_vars]
+
+        if 'secretVolumes' in function:
+            secrets['secretVolumes'] = [{'mountPath': sv['mountPath'], 'projectId': sv['projectId'], 'secret': sv['secret'], 'versions': [{'version': v['version'], 'path': v.get('path')} for v in sv.get('versions', [])]} for sv in function['secretVolumes']]
 
         # Extract trigger type and topic/url
         trigger_type = None
         trigger_topic_url = None
         if 'eventTrigger' in function:
             event_trigger = function['eventTrigger']
-            trigger_type = 'Pub/Sub'
+            trigger_type = 'eventTrigger'
             trigger_topic_url = event_trigger.get('resource')
+            eventType = event_trigger.get('eventType')
             failure_policy = event_trigger.get('failurePolicy', {})
             if failure_policy.get('retry'):
                 failure_policy['retry'] = {'retryCount': 5, 'maxRetryDuration': '120s'}
@@ -78,27 +65,32 @@ def fetch(project, region):
             trigger_topic_url = function['httpsTrigger']['url']
             failure_policy = None
 
-        # Add function information to dictionary
+        # Extact additional information
+        entry_point = function.get('entryPoint')
+        timeout = function.get('timeout').strip('s')
+        available_memory_mb = function.get('availableMemoryMb')
+
+        # Extract additional function settings
         function_info[function_name] = {
+            'entryPoint': entry_point,
+            'timeout': timeout,
+            'available_memory_mb': available_memory_mb,
             'environmentVariables': env_vars,
             'buildEnvironmentVariables': build_env_vars,
-            'secret': secrets,
+            'secrets': secrets,
             trigger_type: {
-                'topic': trigger_topic_url,
+                "resource": trigger_topic_url,
+                "eventType": eventType,
                 'failurePolicy': failure_policy
-            } if trigger_type else {}
+            } if trigger_type == 'eventTrigger' else {'url': trigger_topic_url}
         }
 
     # Write function information to JSON file
     with open('function_info.json', 'w') as f:
         json.dump(function_info, f, indent=2)
 
-    # Write function information to JSON file
-    with open('function_info.json', 'w') as f:
-        json.dump(function_info, f, indent=2)
-    
     # All available functions and their corresponding keys
-    # print(functions)
+    print(functions)
 
 if __name__ == '__main__':
     fetch(PROJECT, REGION)
