@@ -46,61 +46,38 @@ Running pubsub.py will create a JSON that holds a list with the following strcut
 Running main.py will create a JSON with the following structure :
 ```
 {
-  "AuthenticatedFunction": {
+  "AuthenticatedFunction": { # Your function name
     "environmentVariables": null,
     "buildEnvironmentVariables": null,
     "secret": {},
-    "Pub/Sub": {
+    "Pub/Sub": { # Your function Trigger type
       "topic": "projects/cc-s2s-vpn-test/topics/asdasdx",
       "failurePolicy": {}
     }
   },
-  "HelloWorld": {
-    "environmentVariables": {
+  "HelloWorld": { # Your function name
+    "environmentVariables": { # Your function environment variables
       "RUNTIME": "HELLO",
       "RUNTIMEE": "HELLOO"
     },
-    "buildEnvironmentVariables": {
+    "buildEnvironmentVariables": { # Your function build variables
       "BUILD": "TEST",
       "BUILDD": "TEST-2"
     },
-    "secret": {
+    "secret": { # Your function secret
       "mysecret": {
         "version": "latest",
         "mountPath": "/path",
         "projectId": "1001384248257"
       },
-      "AnotherFunction": {
+      "mysecret-2": {
         "version": "latest",
         "projectId": "1001384248257"
       }
     },
-    "httpsTrigger": {
+    "httpsTrigger": { # Your function Trigger type
       "topic": "https://us-central1-cc-s2s-vpn-test.cloudfunctions.net/function-2",
       "failurePolicy": null
     }
-  },
-  "ThirdFunction-3": {
-    "environmentVariables": null,
-    "buildEnvironmentVariables": null,
-    "secret": {},
-    "Pub/Sub": {
-      "topic": "projects/cc-s2s-vpn-test/topics/asdasdx",
-      "failurePolicy": {
-        "retry": {}
-      }
-    }
-  },
-  "LastFunction": {
-    "environmentVariables": null,
-    "buildEnvironmentVariables": null,
-    "secret": {},
-    "Pub/Sub": {
-      "topic": "projects/cc-s2s-vpn-test/topics/asdasdx",
-      "failurePolicy": {
-        "retry": {}
-      }
-    }
   }
-}
 ```
