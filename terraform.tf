@@ -55,6 +55,20 @@ resource "google_pubsub_topic" "pub_sub" {
 
 //////////////////////////////
 
+# Storage bucket resource
+resource "google_storage_bucket" "function_bucket" {
+  name     = "${var.name_prefix}-sync-cloud-functions"
+  location = var.function_storage_location
+}
+
+resource "google_storage_bucket_object" "archive" {
+  name   = "bootstrap_nodejs_function.zip"
+  bucket = google_storage_bucket.function_bucket.name
+  source = "./bootstrap_nodejs_function.zip"
+}
+
+//////////////////////////////
+
 # Cloud Function resource 
 resource "google_cloudfunctions_function" "secret_test_func" {
   for_each = local.functions
@@ -65,7 +79,7 @@ resource "google_cloudfunctions_function" "secret_test_func" {
   region      = var.gcp_functions_region
   entry_point = "catalog_sync" # Entrypoint should be a function in the code
 
-  vpc_connector = google_vpc_access_connector.serverless_vpc.id
+  # vpc_connector = google_vpc_access_connector.serverless_vpc.id
   source_archive_bucket = google_storage_bucket.function_bucket.name
   source_archive_object = google_storage_bucket_object.archive.name
 
