@@ -26,11 +26,31 @@ variable "gcp_project" {
 variable "gcp_region" {
   description = "region"
 }
+
+variable "name_prefix" {
+  description = "naming prefix for resources"
+}
 //////////////////////////////
 
 # Locals
 locals {
   functions = jsondecode(file("${path.module}/function_info.json"))
+  pubsub_topics = jsondecode(file("${path.module}/pubsub_topics.json"))
+}
+
+//////////////////////////////
+
+# Pub/Sub topic resource
+resource "google_pubsub_topic" "pub_sub" {
+  for_each = toset(local.pubsub_topics)
+
+  name = "${var.name_prefix}-${each.key}"
+
+  labels = {
+    topic = each.key
+  }
+
+  message_retention_duration = "86600s"
 }
 
 //////////////////////////////
