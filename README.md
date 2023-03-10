@@ -50,37 +50,57 @@ Running main.py will create a JSON with the following structure :
 ```
 {
   "AuthenticatedFunction": {
-    "environmentVariables": null,
-    "buildEnvironmentVariables": null,
-    "secret": {},
-    "Pub/Sub": {
-      "topic": "projects/cc-s2s-vpn-test/topics/agencies-filter",
-      "failurePolicy": {}
-    }
-  },
-  "HelloWorld": {
+    "entryPoint": "helloWorld",
+    "timeout": "60",
+    "available_memory_mb": 256,
     "environmentVariables": {
-      "RUNTIME": "HELLO",
-      "RUNTIMEE": "HELLOO"
+      "RUN": "VALUE",
+      "RUNAGAIN": "VALUEAGAIN"
     },
     "buildEnvironmentVariables": {
-      "BUILD": "TEST",
-      "BUILDD": "TEST-2"
+      "BUILDATMAX": "50",
+      "BUILDATMIN": "1"
     },
-    "secret": {
-      "mysecret": {
-        "version": "latest",
-        "mountPath": "/path",
-        "projectId": "1001384248257"
-      },
-      "mysecret-2": {
-        "version": "latest",
-        "projectId": "1001384248257"
-      }
+    "secrets": {
+      "secretEnvironmentVariables": [
+        {
+          "key": "RandomVariable",
+          "projectId": "1001384248257",
+          "secret": "password",
+          "version": "1"
+        }
+      ],
+      "secretVolumes": [
+        {
+          "mountPath": "/secret",
+          "projectId": "1001384248257",
+          "secret": "mysecret",
+          "versions": [
+            {
+              "version": "latest",
+              "path": "/mysecret"
+            }
+          ]
+        }
+      ]
     },
     "httpsTrigger": {
-      "topic": "https://us-central1-cc-s2s-vpn-test.cloudfunctions.net/HelloWorld",
-      "failurePolicy": null
+      "url": "https://us-central1-cc-s2s-vpn-test.cloudfunctions.net/function-1"
+    }
+  },
+  "AllocatedFunction": {
+    "entryPoint": "helloPubSub",
+    "timeout": "60",
+    "available_memory_mb": 256,
+    "environmentVariables": null,
+    "buildEnvironmentVariables": null,
+    "secrets": {},
+    "eventTrigger": {
+      "resource": "projects/cc-s2s-vpn-test/topics/elazar-asdasdx",
+      "eventType": "google.pubsub.topic.publish",
+      "failurePolicy": {
+        "retry": {}
+      }
     }
   }
 }
