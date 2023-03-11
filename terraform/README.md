@@ -14,7 +14,7 @@ EOF
 ## Configuration
 To migrate Google Cloud Functions, you will need to update the configuration file `function_info.json` to match your Project ID. some fields contain the Project it was fetched from and since our goal is migration we'd like to set this up on a different project.
 
-## Here an example using VSCode
+## Here configuration using VSCode
 
 1. Press Ctrl + H using VSCode, A window will popup on the top right corner.
 2. Top section should contain the Project name which was used to fetch the JSON, Bottom section should contain the Project ID you'd like to migrate to.
