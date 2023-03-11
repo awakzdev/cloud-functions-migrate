@@ -17,11 +17,8 @@ To migrate Google Cloud Functions, you will need to update the configuration fil
 Here an example using VSCode
 
 1. Press Ctrl + H using VSCode, A window will popup on the top right corner.
-
-![Code_i51ifQRm3O](https://user-images.githubusercontent.com/96201125/224507341-2e1ad951-2e29-4517-9a66-1146590211a9.png)
-
-3. Top section should contain the Project name which was used to fetch the JSON, Bottom section should contain the Project ID you'd like to migrate to.
-4. Once Step 1 and 2 were done click anywhere in the JSON then hold Ctrl+Alt+Enter to replace all highlighted text to your desired Project ID.
+2. Top section should contain the Project name which was used to fetch the JSON, Bottom section should contain the Project ID you'd like to migrate to.
+3. Once Step 1 and 2 were done click anywhere in the JSON then hold Ctrl+Alt+Enter to replace all highlighted text to your desired Project ID.
 
 ## Deployment Guide
 This guide provides step-by-step instructions on how to deploy and destroy infrastructure using Terraform.
