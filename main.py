@@ -91,7 +91,8 @@ def fetch(project, region):
             print(f"Function '{function_name}' found and added to function_info")
     except KeyError:
         print('No functions found in project', project, 'and region', region)
-
+        return
+    
     # Write function information to JSON file
     with open('function_info.json', 'w') as f:
         json.dump(function_info, f, indent=2)
