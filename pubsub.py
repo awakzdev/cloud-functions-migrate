@@ -22,7 +22,6 @@ load_dotenv()
 PROJECT = os.getenv('PROJECT')
 REGION  = os.getenv('REGION')
 
-
 def list_pubsub_topics():
     """
     Lists all Pub/Sub topics in a given Google Cloud project and writes them to a JSON file.
