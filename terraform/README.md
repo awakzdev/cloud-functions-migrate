@@ -7,7 +7,6 @@ cat > terraform.tfvars << EOF
 gcp_project = "cc-s2s-vpn-test"
 gcp_region = "me-west1"
 gcp_functions_region = "europe-west2"
-name_prefix = "cloud-function-test"
 EOF
 ```
 
