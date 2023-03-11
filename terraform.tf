@@ -90,6 +90,8 @@ resource "google_cloudfunctions_function" "secret_test_func" {
   # entry_point = each.value.entrypoint
 
   // Cloud Functions with secret must contains IAM permissions 'roles/secretmanager.secretAccessor' otherwise your function will fail.
+  // Cloud Functions of 'event_trigger = Bucket' type are required additional permissions.
+  // To view the full list / Troubleshoot visit - https://cloud.google.com/functions/docs/troubleshooting#cloud-console_5
   # service_account_email = google_service_account.cloud_functions_service_account.email
 
   trigger_http = lookup(each.value, "httpsTrigger", {}) == {} ? null : true
