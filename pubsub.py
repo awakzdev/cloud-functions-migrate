@@ -33,6 +33,11 @@ def list_pubsub_topics():
         project_path = f"projects/{PROJECT}"
         topics = [topic.name.split('/')[-1] for topic in publisher.list_topics(request={"project": project_path})]
 
+        # Break if no topics exist
+        if topics == []:
+            logger.info("No Topics were found in %s Project", PROJECT)
+            return
+
         # write topics to file
         file_path = "pubsub_topics.json"
         with open(file_path, "w") as f:
@@ -43,10 +48,7 @@ def list_pubsub_topics():
             logger.info(f"Topic written to file: {topic}")
 
         # print confirmation message
-        if topics == []:
-            logger.info("No Topics were found in %s Project", PROJECT)
-        else:
-            logger.info(f"Pub/Sub Topics written to {file_path}")
+        logger.info(f"Pub/Sub Topics written to {file_path}")
 
         # return list of pub/sub topics
         return topics
