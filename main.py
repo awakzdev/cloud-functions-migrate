@@ -27,7 +27,8 @@ def fetch(project, region):
     service = build('cloudfunctions', 'v1')
 
     # Retrieve the list of functions for the specified region
-    functions = service.projects().locations().functions().list(parent=f"projects/{PROJECT}/locations/{REGION}").execute()
+    parent = os.path.join("projects", PROJECT, "locations", REGION).replace('\\', '/')
+    functions = service.projects().locations().functions().list(parent=parent).execute()
 
     # Initialize dictionary to store function information
     function_info = {}
@@ -58,8 +59,6 @@ def fetch(project, region):
                 trigger_topic_url = event_trigger.get('resource')
                 eventType = event_trigger.get('eventType')
                 failure_policy = event_trigger.get('failurePolicy', {})
-                if failure_policy.get('retry'):
-                    failure_policy['retry'] = {'retryCount': 5, 'maxRetryDuration': '120s'}
             elif 'httpsTrigger' in function:
                 trigger_type = 'httpsTrigger'
                 trigger_topic_url = function['httpsTrigger']['url']
