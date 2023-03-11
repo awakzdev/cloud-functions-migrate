@@ -20,6 +20,10 @@ def fetch(project, region):
     '''
     Fetches information about all Cloud Functions in the given project and region.
     Stores the function information in a dictionary, and writes it to a JSON file.
+    
+    Parameters:
+    PROJECT (str): The ID of the Google Cloud project.
+    REGION (str): The region in which the functions are located.
     '''
     # Instantiate the client
     service = build('cloudfunctions', 'v1')
