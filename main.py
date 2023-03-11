@@ -6,7 +6,7 @@ import os
 '''
 Utilizes Google Cloud SDK's to fetch all Google Cloud Functions topics.
 Authentication is applied using the following command - **`gcloud auth application-default login`**.
-This code uses the .env variable to set your PROJECT / REGION.
+This code uses the .env file variables to set your PROJECT / REGION.
 '''
 
 # Load environment variables
@@ -19,6 +19,7 @@ def fetch(project, region):
     '''
     Fetches information about all Cloud Functions in the given project and region.
     Stores the function information in a dictionary, and writes it to a JSON file.
+    
     Parameters:
     project (str): The ID of the Google Cloud project.
     region (str): The region in which the functions are located.
