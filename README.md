@@ -50,6 +50,7 @@ Running main.py will create a JSON with the following structure :
 ```
 {
   "AuthenticatedFunction": {
+    "runtime": "nodejs18",
     "entryPoint": "helloWorld",
     "timeout": "60",
     "available_memory_mb": 256,
@@ -89,6 +90,7 @@ Running main.py will create a JSON with the following structure :
     }
   },
   "AllocatedFunction": {
+    "runtime": "nodejs18",
     "entryPoint": "helloPubSub",
     "timeout": "60",
     "available_memory_mb": 256,
