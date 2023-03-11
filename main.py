@@ -1,4 +1,5 @@
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 from dotenv import load_dotenv
 import json
 import os
@@ -6,7 +7,7 @@ import os
 '''
 Utilizes Google Cloud SDK's to fetch all Google Cloud Functions topics.
 Authentication is applied using the following command - **`gcloud auth application-default login`**.
-This code uses the .env file variables to set your PROJECT / REGION.
+This code uses the .env variable to set your PROJECT / REGION.
 '''
 
 # Load environment variables
@@ -19,7 +20,7 @@ def fetch(project, region):
     '''
     Fetches information about all Cloud Functions in the given project and region.
     Stores the function information in a dictionary, and writes it to a JSON file.
-    
+
     Parameters:
     project (str): The ID of the Google Cloud project.
     region (str): The region in which the functions are located.
@@ -29,7 +30,15 @@ def fetch(project, region):
 
     # Retrieve the list of functions for the specified region
     parent = os.path.join("projects", PROJECT, "locations", REGION).replace('\\', '/')
-    functions = service.projects().locations().functions().list(parent=parent).execute()
+    try:
+        functions = service.projects().locations().functions().list(parent=parent).execute()
+    except HttpError as err:
+        resp = json.loads(err.content)
+        if resp.get('error', {}).get('code') == 403:
+            print("User doesn't have permissions to %s or it doesn't exist" % (parent))
+            return
+        else:
+            raise
 
     # Initialize dictionary to store function information
     function_info = {}
@@ -91,8 +100,7 @@ def fetch(project, region):
             print(f"Function '{function_name}' found and added to function_info")
     except KeyError:
         print('No functions found in project', project, 'and region', region)
-        return
-    
+
     # Write function information to JSON file
     with open('function_info.json', 'w') as f:
         json.dump(function_info, f, indent=2)
