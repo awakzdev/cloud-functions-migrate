@@ -21,16 +21,20 @@ This guide provides step-by-step instructions on how to deploy and destroy infra
 
 Steps
 
-1. Initialize Terraform and download the required plugins
+1. Authenticate using the following command:
+```
+gcloud auth login
+```
+
+2. Initialize Terraform and download the required plugins
 ```
 terraform init
 ```
-2. Preview the Terraform changes
+3. Preview the Terraform changes
 ```
 terraform plan
 ```
-
-3. Applying the changes 
+4. Applying the changes 
 ```
 terraform apply
 ```
