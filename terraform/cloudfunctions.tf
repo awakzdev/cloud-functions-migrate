@@ -1,75 +1,3 @@
-//////////////////////////////
-
-# Providers
-terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "4.49.0"
-    }
-  }
-  required_version = ">= 0.14"
-}
-
-provider "google" {
-  project = var.gcp_project
-  region  = var.gcp_region
-}
-
-//////////////////////////////
-
-# Variables 
-variable "gcp_project" {
-  description = "project id"
-}
-
-variable "gcp_region" {
-  description = "region"
-}
-
-variable "name_prefix" {
-  description = "naming prefix for resources"
-}
-
-//////////////////////////////
-
-# Locals
-locals {
-  functions = jsondecode(file("${path.module}/function_info.json"))
-  pubsub_topics = jsondecode(file("${path.module}/pubsub_topics.json"))
-}
-
-//////////////////////////////
-
-# Pub/Sub topic resource
-resource "google_pubsub_topic" "pub_sub" {
-  for_each = toset(local.pubsub_topics)
-
-  name = "${var.name_prefix}-${each.key}"
-
-  labels = {
-    topic = each.key
-  }
-
-  message_retention_duration = "86600s"
-}
-
-//////////////////////////////
-
-# Storage bucket resource
-resource "google_storage_bucket" "function_bucket" {
-  name     = "${var.name_prefix}-sync-cloud-functions"
-  location = var.function_storage_location
-}
-
-resource "google_storage_bucket_object" "archive" {
-  name   = "bootstrap_nodejs_function.zip"
-  bucket = google_storage_bucket.function_bucket.name
-  source = "./bootstrap_nodejs_function.zip"
-}
-
-//////////////////////////////
-
 resource "google_cloudfunctions_function" "secret_test_func" {
   for_each = local.functions
   
@@ -79,7 +7,6 @@ resource "google_cloudfunctions_function" "secret_test_func" {
   runtime     = "nodejs16"
   entry_point = "catalog_sync" # Entrypoint should be a function in the code
 
-  vpc_connector = google_vpc_access_connector.serverless_vpc.id
   source_archive_bucket = google_storage_bucket.function_bucket.name
   source_archive_object = google_storage_bucket_object.archive.name
   available_memory_mb   = each.value.available_memory_mb
