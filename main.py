@@ -30,6 +30,7 @@ def fetch(project, region):
 
     # Retrieve the list of functions for the specified region
     parent = os.path.join("projects", PROJECT, "locations", REGION).replace('\\', '/')
+    
     try:
         functions = service.projects().locations().functions().list(parent=parent).execute()
     except HttpError as err:
@@ -42,6 +43,7 @@ def fetch(project, region):
 
     # Initialize dictionary to store function information
     function_info = {}
+    
     try:
         for function in functions['functions']:
             # Extract information about the function
@@ -104,7 +106,6 @@ def fetch(project, region):
     # Write function information to JSON file
     with open('function_info.json', 'w') as f:
         json.dump(function_info, f, indent=2)
-
 
 if __name__ == '__main__':
     fetch(PROJECT, REGION)
